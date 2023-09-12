@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Exclusive Events - Professor M L Sai Kumar's Portfolio</title>
+    <title>Faculty/Executive Development Programs - Professor M L Sai Kumar's Portfolio</title>
     <!-- Add Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -54,7 +53,9 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'studentevents'%}">Student Exclusive Events</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'facultyevents'%}">Faculty Exclusive Events</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'requestform' %}">Requestforms</a></li>
+
         </ul>
+
     </nav>
 
     <!-- Month Selection Menu -->
@@ -67,23 +68,27 @@
         </select>
     </div>
 
-    <!-- Student Exclusive Events Page -->
+    <!-- Faculty/Executive Development Programs Page -->
     <section id="august">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mb-4">August Student Exclusive Events</h1>
+                    <h1 class="mb-4">August Faculty/Executive Development Programs</h1>
+                    <!-- Add your August faculty/executive development programs here -->
                     <div class="event">
-                        <h2 class="text-primary event-title">Upgrading Programming Skills to Assist Corporate Life</h2>
+                        <h2 class="text-primary event-title">FDP on Improving Teachers Effectiveness and Innovative Teaching Methodology</h2>
                         <p>
-                            <strong>Date:</strong> August 7, 2023<br>
-                            <strong>Location:</strong> Malla Reddy Engineering College and Management Sciences<br>
-                            <strong>Description</strong> conducted SSDP on Upgrading Programming Skills to Assist
-                            Corporate Life <br>
+                            <strong>Date:</strong> August 19, 2023<br>
+                            <strong>Location:</strong> R G Kedia College<br>
+                            <strong>Contact Person:</strong> Dr. Vandana Samba<br>
+                            <strong>Email:</strong> vandanasamba@gmail.com<br>
+                            <strong>Cell:</strong> 98854 36982<br>
+                            <strong>Description:</strong> Conducted Faculty Development Program on Improving Teachers Effectiveness and Innovative Teaching Methodology at R G Kedia College.<br>
                         </p>
                         <button class="btn btn-primary btn-feedback" onclick="openFeedbackForm('Upgrading Programming Skills to Assist Corporate Life')">Give Feedback</button>
 
                     </div>
+                    <!-- Add more August faculty/executive development programs as needed -->
                 </div>
             </div>
         </div>
@@ -112,9 +117,8 @@
 
         // Initialize by showing events for August (you can change this to the default month you want)
         showEventsForMonth('august');
-
-        // Function to open the feedback form
-        function openFeedbackForm(eventName) {
+         // Function to open the feedback form
+         function openFeedbackForm(eventName) {
             document.getElementById('feedbackModal').style.display = 'block';
             document.getElementById('eventName').innerText = eventName;
         }
@@ -125,8 +129,7 @@
         }
 
     </script>
-
-    <!-- Feedback Form (hidden by default) -->
+ <!-- Feedback Form (hidden by default) -->
     <div id="feedbackModal" class="modal" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">

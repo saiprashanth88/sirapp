@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +49,12 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="{%url 'home'%}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#lectures">Lectures & Seminars</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'studentevents' %}">Student Exclusive Events</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'liveevents' %}">Faculty Exclusive Events</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'requestform'%}">Others</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'home'%}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'lectures_seminar' %}">Lectures & Seminars</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'studentevents'%}">Student Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'facultyevents'%}">Faculty Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'requestform' %}">Requestforms</a></li>
+
         </ul>
 
     </nav>
@@ -83,6 +86,8 @@
                             <strong>Email:</strong> srinumodai@gmail.com<br>
                             <strong>Phone:</strong> 98496 72252<br>
                         </p>
+                        <button class="btn btn-primary btn-feedback" onclick="openFeedbackForm()">Give Feedback</button>
+
                     </div>
                     <div class="event">
                         <h2 class="text-primary event-title">Lecture on Career Planning and Opportunities (Batch I)</h2>
@@ -94,6 +99,8 @@
                             <strong>Contact Person:</strong> Dr. Parthasaradhi<br>
                             <strong>Phone:</strong> 80961 75678<br>
                         </p>
+                        <button class="btn btn-primary btn-feedback" onclick="openFeedbackForm('Upgrading Programming Skills to Assist Corporate Life')">Give Feedback</button>
+
                     </div>
                     <div class="event">
                         <h2 class="text-primary event-title">Lecture on Career Planning and Opportunities (Batch II)</h2>
@@ -104,6 +111,8 @@
                             <strong>Contact Person:</strong> Dr. Parthasaradhi<br>
                             <strong>Phone:</strong> 80961 75678<br>
                         </p>
+                        <button class="btn btn-primary btn-feedback" onclick="openFeedbackForm('Upgrading Programming Skills to Assist Corporate Life')">Give Feedback</button>
+
                     </div>
                     <!-- Add more August events as needed -->
                 </div>
@@ -134,8 +143,68 @@
 
         // Initialize by showing events for August (you can change this to the default month you want)
         showEventsForMonth('august');
-    </script>
 
+        // Function to open the feedback form
+        function openFeedbackForm(eventName) {
+            document.getElementById('feedbackModal').style.display = 'block';
+            document.getElementById('eventName').innerText = eventName;
+        }
+
+        // Function to close the feedback form
+        function closeFeedbackForm() {
+            document.getElementById('feedbackModal').style.display = 'none';
+        }
+    </script>
+    <!-- Feedback Form (hidden by default) -->
+    <div id="feedbackModal" class="modal" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Feedback Form for <span id="eventName"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeFeedbackForm()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Feedback form elements go here -->
+                    <form id="feedbackForm">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback">Feedback:</label>
+                            <textarea class="form-control" id="feedback" rows="4" placeholder="Enter your feedback" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeFeedbackForm()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Feedback Modal (hidden by default) -->
+    <div id="viewFeedbackModal" class="modal" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Feedbacks for <span id="eventName"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeViewFeedbackModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <ul id="feedbackList"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeViewFeedbackModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Add Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
