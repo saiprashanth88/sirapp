@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS Styles */
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            background-color: #343a40;
+            color: #ffffff;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #ffffff;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css">
+
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <a href="#myevents" onclick="showPage('myevents')">Lectures & Seminars</a>
+        <a href="#studentevents" onclick="showPage('studentevents')">Student Exclusive Events</a>
+        <a href="#facultyevents" onclick="showPage('facultyevents')">Faculty Exclusive Events</a>
+        <a href="#responses" onclick="showPage('dashboard')">Dashboard</a>
+        <a href="#calendar" onclick="showPage('calendar')">Calendar</a>
+        <a href="#settings" onclick="showPage('settings')">Settings</a>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to the Dashboard</h1>
+        <div id="dashboard">
+            <!-- Dashboard content goes here -->
+            <p>This is the dashboard page.</p>
+        </div>
+
+        <div id="myevents" style="display: none;">
+            <!-- My Events content goes here -->
+            <h2>Lectures & Seminars</h2>
+            <p>This is the "Lectures & Seminars" page.</p>
+        </div>
+
+        <div id="studentevents" style="display: none;">
+            <!-- Student Exclusive Events content goes here -->
+            <h2>Student Exclusive Events</h2>
+            <p>This is the "Student Exclusive Events" page. Your content goes here.</p>
+        </div>
+
+        <div id="facultyevents" style="display: none;">
+            <!-- Faculty Exclusive Events content goes here -->
+            <h2>Faculty Exclusive Events</h2>
+            <p>This is the "Faculty Exclusive Events" page.</p>
+        </div>
+
+        <div id="calendar" style="display: none;">
+            <!-- Calendar content goes here -->
+            <h2>Calendar</h2>
+            <div id="calendar-container">
+                <!-- Calendar API will render here -->
+            </div>
+        </div>
+
+        <div id="settings" style="display: none;">
+            <!-- Settings content goes here -->
+            <h2>Settings</h2>
+            <p>This is the settings page.</p>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css">
+
+    <script>
+        // JavaScript to toggle between pages
+        function showPage(pageId) {
+            const pages = ['dashboard', 'myevents', 'studentevents', 'facultyevents', 'calendar', 'settings'];
+            for (const page of pages) {
+                const pageElement = document.getElementById(page);
+                if (page === pageId) {
+                    pageElement.style.display = 'block';
+                } else {
+                    pageElement.style.display = 'none';
+                }
+            }
+
+            // If the "Calendar" page is displayed, render the calendar
+            if (pageId === 'calendar') {
+                renderCalendar();
+            }
+        }
+
+        // Initial page to show (you can change this)
+        showPage('dashboard');
+
+        // Function to render the FullCalendar
+        function renderCalendar() {
+            // Initialize FullCalendar
+            const calendarEl = document.getElementById('calendar-container');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                // Customize your calendar options here
+                initialView: 'dayGridMonth', // You can change the initial view
+                events: [
+                    // Add your calendar events here as JSON objects
+                    {
+                        title: 'Event 1',
+                        start: '2023-09-15T10:00:00',
+                        end: '2023-09-15T12:00:00'
+                    },
+                    {
+                        title: 'Event 2',
+                        start: '2023-09-20T14:00:00',
+                        end: '2023-09-20T16:00:00'
+                    },
+                    // Add more events as needed
+                ]
+            });
+
+            // Render the calendar
+            calendar.render();
+
+            const calendarLink = document.getElementById('calendar');
+            calendarLink.onclick = function() {
+            showPage('calendar');
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exclusive Events - Professor M L Sai Kumar's Portfolio</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa;
+        }
+        .event {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .event-title {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .month-menu {
+            margin-bottom: 20px;
+        }
+        nav {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Menu (if applicable) -->
+    <nav class="navbar navbar-expand-lg">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="C:\Users\sreekar\Desktop\APP DEV\main.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="file:///C:/Users/sreekar/Desktop/APP%20DEV/Lectures&seminar.html">Lectures & Seminars</a></li>
+            <li class="nav-item"><a class="nav-link" href="C:\Users\sreekar\Desktop\APP DEV\studentevents.html">Student Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="#faculty_events">Faculty Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="#others">Others</a></li>
+        </ul>
+        
+    </nav>
+
+    <!-- Month Selection Menu -->
+    <div class="container month-menu">
+        <h3>Select a Month:</h3>
+        <select id="monthSelector" class="form-control">
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <!-- Add more month options as needed -->
+        </select>
+    </div>
+
+    <!-- Student Exclusive Events Page -->
+    <section id="august">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="mb-4">August Student Exclusive Events</h1>
+                    <!-- Add your August student-exclusive events here -->
+                    <div class="event">
+                        <h2 class="text-primary event-title">SSDP on Upgrading Programming Skills to Assist Corporate Life</h2>
+                        <p>
+                            <strong>Date:</strong> August 7, 2023<br>
+                            <strong>Location:</strong> Malla Reddy Engineering College and Management Sciences<br>
+                            <strong>Description:</strong> Conducted SSDP on Upgrading Programming Skills to Assist Corporate Life.<br>
+                        </p>
+                    </div>
+                    <div class="event">
+                        <h2 class="text-primary event-title">SSDP on Campus to Corporate</h2>
+                        <p>
+                            <strong>Date:</strong> August 8, 2023<br>
+                            <strong>Location:</strong> Malla Reddy Engineering College and Management Sciences<br>
+                            <strong>Description:</strong> Conducted SSDP on Campus to Corporate.<br>
+                        </p>
+                    </div>
+                    <div class="event">
+                        <h2 class="text-primary event-title">SSDP on Empowering Youth through Emotional Intelligence</h2>
+                        <p>
+                            <strong>Date:</strong> August 18, 2023<br>
+                            <strong>Location:</strong> KKR & KSR Institute of Technology and Sciences (KITS)<br>
+                            <strong>Description:</strong> Conducted SSDP on Empowering Youth through Emotional Intelligence for the benefit of their B Tech III year I Sem CSD students. Two students were given a cash prize of Rs 1,500/- (Rs 500/- + Rs 500/-).<br>
+                        </p>
+                    </div>
+                    <div class="event">
+                        <h2 class="text-primary event-title">SSDP on Engineering Education: Way to A Rewarding Golden Career</h2>
+                        <p>
+                            <strong>Date:</strong> August 29, 2023<br>
+                            <strong>Location:</strong> TKR Engineering College<br>
+                            <strong>Description:</strong> Conducted SSDP on Engineering Education: Way to A Rewarding Golden Career for the benefit of their B Tech ECE I year students at 10 AM to 4.30 PM.<br>
+                        </p>
+                    </div>
+                    <div class="event">
+                        <h2 class="text-primary event-title">SSDP on Engineering Education: Way to A Rewarding Golden Career</h2>
+                        <p>
+                            <strong>Date:</strong> August 30, 2023<br>
+                            <strong>Location:</strong> TKR Engineering College<br>
+                            <strong>Description:</strong> Conducted SSDP on Engineering Education: Way to A Rewarding Golden Career for the benefit of their B Tech CSE I year students at 10 AM to 4.30 PM.<br>
+                        </p>
+                    </div>
+                    <!-- Add more August student-exclusive events as needed -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add your JavaScript here -->
+    <script>
+        // Function to show events for the selected month
+        function showEventsForMonth(month) {
+            // Hide all event sections
+            document.querySelectorAll('section[id]').forEach(function (section) {
+                section.style.display = 'none';
+            });
+
+            // Show the selected month's event section if it has events
+            if (document.getElementById(month).querySelector('.event')) {
+                document.getElementById(month).style.display = 'block';
+            }
+        }
+
+        // Add event listener to the month selector
+        document.getElementById('monthSelector').addEventListener('change', function () {
+            const selectedMonth = this.value;
+            showEventsForMonth(selectedMonth);
+        });
+
+        // Initialize by showing events for August (you can change this to the default month you want)
+        showEventsForMonth('august');
+    </script>
+
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

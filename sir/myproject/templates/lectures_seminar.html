@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectures & Seminars - Professor M L Sai Kumar's Portfolio</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa;
+        }
+        .event {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .event-title {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .month-menu {
+            margin-bottom: 20px;
+        }
+        nav {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{%url 'home'%}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#lectures">Lectures & Seminars</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'studentevents' %}">Student Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'liveevents' %}">Faculty Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'requestform'%}">Others</a></li>
+        </ul>
+
+    </nav>
+
+
+    <!-- Month Selection Menu -->
+    <div class="container month-menu">
+        <h3>Select a Month:</h3>
+        <select id="monthSelector" class="form-control">
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <!-- Add more month options as needed -->
+        </select>
+    </div>
+
+    <!-- Live Events Page -->
+    <section id="august">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="mb-4">August Events</h1>
+                    <!-- Add your August events here -->
+                    <div class="event">
+                        <h2 class="text-primary event-title">Webinar on Lean Start-up and Minimum Viable Product/Business</h2>
+                        <p>
+                            <strong>Date:</strong> August 1, 2023<br>
+                            <strong>Location:</strong> Raghu Institute of Technology, Vizag<br>
+                            <strong>Contact Person:</strong> Dr. MSSS Srinivas<br>
+                            <strong>Email:</strong> srinumodai@gmail.com<br>
+                            <strong>Phone:</strong> 98496 72252<br>
+                        </p>
+                    </div>
+                    <div class="event">
+                        <h2 class="text-primary event-title">Lecture on Career Planning and Opportunities (Batch I)</h2>
+                        <p>
+                            <strong>Date:</strong> August 3, 2023<br>
+                            <strong>Location:</strong> GNITC<br>
+                            <strong>Description:</strong> Delivered a lecture on Career Planning and Opportunities for B Tech I year students (Batch I).
+                            Cash prize of Rs 500 awarded to two students.<br>
+                            <strong>Contact Person:</strong> Dr. Parthasaradhi<br>
+                            <strong>Phone:</strong> 80961 75678<br>
+                        </p>
+                    </div>
+                    <div class="event">
+                        <h2 class="text-primary event-title">Lecture on Career Planning and Opportunities (Batch II)</h2>
+                        <p>
+                            <strong>Date:</strong> August 3, 2023<br>
+                            <strong>Location:</strong> GNITC<br>
+                            <strong>Description:</strong> Delivered a lecture on Career Planning and Opportunities for B Tech I year students (Batch II). Cash prize of Rs 500 awarded to two students.<br>
+                            <strong>Contact Person:</strong> Dr. Parthasaradhi<br>
+                            <strong>Phone:</strong> 80961 75678<br>
+                        </p>
+                    </div>
+                    <!-- Add more August events as needed -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add your JavaScript here -->
+    <script>
+        // Function to show events for the selected month
+        function showEventsForMonth(month) {
+            // Hide all event sections
+            document.querySelectorAll('section[id]').forEach(function (section) {
+                section.style.display = 'none';
+            });
+
+            // Show the selected month's event section if it has events
+            if (document.getElementById(month).querySelector('.event')) {
+                document.getElementById(month).style.display = 'block';
+            }
+        }
+
+        // Add event listener to the month selector
+        document.getElementById('monthSelector').addEventListener('change', function () {
+            const selectedMonth = this.value;
+            showEventsForMonth(selectedMonth);
+        });
+
+        // Initialize by showing events for August (you can change this to the default month you want)
+        showEventsForMonth('august');
+    </script>
+
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
