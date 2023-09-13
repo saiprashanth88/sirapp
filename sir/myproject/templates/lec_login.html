@@ -45,13 +45,13 @@
     <!-- Navigation Menu (if applicable) -->
     <nav class="navbar navbar-expand-lg">
         <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="{% url 'home'%}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'lectures_seminar' %}">Lectures & Seminars</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'studentevents'%}">Student Exclusive Events</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'facultyevents'%}">Faculty Exclusive Events</a></li>
-            <!-- <li class="nav-item"><a class="nav-link" href="{% url 'requestform' %}">Requestforms</a></li> -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'user_home'%}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'lec_login' %}">Lectures & Seminars</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'std_login'%}">Student Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'fac_login'%}">Faculty Exclusive Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'requestform' %}">Requestforms</a></li>
         </ul>
-        <button class="btn btn-light ml-auto"><a class="btn btn-light ml-auto" href="{% url 'admin_login' %}">Login</a></button>
+        <button class="btn btn-light ml-auto"><a class="btn btn-light ml-auto" href="{% url 'home' %}">Log Out</a></button>
 
     </nav>
 

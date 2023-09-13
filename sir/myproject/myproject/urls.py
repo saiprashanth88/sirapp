@@ -21,6 +21,26 @@ urlpatterns = [
     path('admin_std_events/',views.admin_std_events,name="admin_std_events"),
     path('admin_calender/',views.admin_calender, name="admin_calender"),
     path('admin_settings/', views.admin_settings, name="admin_settings"),
+    path('submit_feedback/', views.submit_feedback, name='submit_feedback'),
+    path('submit_lecture_feedback/', views.submit_lecture_feedback, name='submit_lecture_feedback'),
+    path('submit_faculty_event_feedback/',views.submit_faculty_event_feedback,name='submit_faculty_event_feedback'),
+
+
+    path('feedback/<str:event_title>/', views.feedback_page, name='feedback_page'),
+    path('std_feedback/<str:event_title>/', views.std_feedbacks, name='std_feedbacks'),
+    path('fac_feedback/<str:event_title>/', views.fac_feedbacks, name='fac_feedbacks'),
+    path('std_login/',views.std_login, name ="std_login"),
+    path('fac_login/',views.fac_login, name ="fac_login"),
+    path('lec_login/',views.lec_login, name ="lec_login"),
+
+
+
+
+
+
+
+
+
 
 
 ]

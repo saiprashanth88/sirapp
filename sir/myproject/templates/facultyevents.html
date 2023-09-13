@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculty/Executive Development Programs - Professor M L Sai Kumar's Portfolio</title>
+    <title>Lectures & Seminars - Professor M L Sai Kumar's Portfolio</title>
     <!-- Add Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -22,9 +22,6 @@
         .event-title {
             cursor: pointer;
             text-decoration: underline;
-        }
-        .month-menu {
-            margin-bottom: 20px;
         }
         nav {
             background-color: #343a40;
@@ -52,84 +49,63 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'lectures_seminar' %}">Lectures & Seminars</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'studentevents'%}">Student Exclusive Events</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'facultyevents'%}">Faculty Exclusive Events</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'requestform' %}">Requestforms</a></li>
-
+            <!-- <li class="nav-item"><a class="nav-link" href="{% url 'requestform' %}">Requestforms</a></li> -->
         </ul>
+        <button class="btn btn-light ml-auto"><a class="btn btn-light ml-auto" href="{% url 'admin_login' %}">Login</a></button>
 
     </nav>
 
-    <!-- Month Selection Menu -->
-    <div class="container month-menu">
-        <h3>Select a Month:</h3>
-        <select id="monthSelector" class="form-control">
-            <option value="august">August</option>
-            <option value="september">September</option>
-            <!-- Add more month options as needed -->
-        </select>
-    </div>
-
-    <!-- Faculty/Executive Development Programs Page -->
-    <section id="august">
+    <!-- Live Events Page -->
+    {% for month_year, events in events_by_month.items %}
+    {% if events %}
+    <section>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mb-4">August Faculty/Executive Development Programs</h1>
-                    <!-- Add your August faculty/executive development programs here -->
+                    <h1 class="mb-4">{{ month_year.0 }} {{ month_year.1 }} Events</h1>
+                    {% for event in events %}
                     <div class="event">
-                        <h2 class="text-primary event-title">FDP on Improving Teachers Effectiveness and Innovative Teaching Methodology</h2>
+                        <h2 class="text-primary event-title">{{ event.title }}</h2>
                         <p>
-                            <strong>Date:</strong> August 19, 2023<br>
-                            <strong>Location:</strong> R G Kedia College<br>
-                            <strong>Contact Person:</strong> Dr. Vandana Samba<br>
-                            <strong>Email:</strong> vandanasamba@gmail.com<br>
-                            <strong>Cell:</strong> 98854 36982<br>
-                            <strong>Description:</strong> Conducted Faculty Development Program on Improving Teachers Effectiveness and Innovative Teaching Methodology at R G Kedia College.<br>
+                            <strong>Date:</strong> {{ event.date }}<br>
+                            <strong>Location:</strong> {{ event.location }}<br>
+                            <strong>Contact Person:</strong> {{ event.contact_person }}<br>
+                            <strong>Email:</strong> {{ event.email }}<br>
+                            <strong>Phone:</strong> {{ event.cell }}<br>
+                            <strong>Description:</strong> {{ event.description }}<br>
                         </p>
-                        <button class="btn btn-primary btn-feedback" onclick="openFeedbackForm('Upgrading Programming Skills to Assist Corporate Life')">Give Feedback</button>
-
+                        <button class="btn btn-primary btn-feedback" onclick="openFeedbackForm('{{ event.title }}')">Give Feedback</button>
                     </div>
-                    <!-- Add more August faculty/executive development programs as needed -->
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </section>
+    {% endif %}
+    {% endfor %}
 
     <!-- Add your JavaScript here -->
     <script>
-        // Function to show events for the selected month
-        function showEventsForMonth(month) {
-            // Hide all event sections
-            document.querySelectorAll('section[id]').forEach(function (section) {
-                section.style.display = 'none';
-            });
+    // Function to open the feedback form
+    function openFeedbackForm(eventName) {
+    document.getElementById('feedbackModal').style.display = 'block';
+    document.getElementById('eventName').innerText = eventName;
+    document.getElementById('eventTitle').value = eventName;
+}
 
-            // Show the selected month's event section if it has events
-            if (document.getElementById(month).querySelector('.event')) {
-                document.getElementById(month).style.display = 'block';
-            }
-        }
+// Function to close the feedback form
+function closeFeedbackForm() {
+    document.getElementById('feedbackModal').style.display = 'none';
+}
 
-        // Add event listener to the month selector
-        document.getElementById('monthSelector').addEventListener('change', function () {
-            const selectedMonth = this.value;
-            showEventsForMonth(selectedMonth);
-        });
-
-        // Initialize by showing events for August (you can change this to the default month you want)
-        showEventsForMonth('august');
-         // Function to open the feedback form
-         function openFeedbackForm(eventName) {
-            document.getElementById('feedbackModal').style.display = 'block';
-            document.getElementById('eventName').innerText = eventName;
-        }
-
-        // Function to close the feedback form
-        function closeFeedbackForm() {
-            document.getElementById('feedbackModal').style.display = 'none';
-        }
-
+function submitFeedback() {
+    // Validate form data if needed
+    // Submit the form
+    document.getElementById('feedbackForm').submit();
+}
     </script>
- <!-- Feedback Form (hidden by default) -->
+
+    <!-- Feedback Form (hidden by default) -->
     <div id="feedbackModal" class="modal" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -139,42 +115,26 @@
                 </div>
                 <div class="modal-body">
                     <!-- Feedback form elements go here -->
-                    <form id="feedbackForm">
+                    <form id="feedbackForm" method="post" action="{% url 'submit_faculty_event_feedback' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="eventTitle" name="event_title" value="">
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group">
                             <label for="feedback">Feedback:</label>
-                            <textarea class="form-control" id="feedback" rows="4" placeholder="Enter your feedback" required></textarea>
+                            <textarea class="form-control" id="feedback" name="feedback_text" rows="4" placeholder="Enter your feedback" required></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeFeedbackForm()">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- View Feedback Modal (hidden by default) -->
-    <div id="viewFeedbackModal" class="modal" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Feedbacks for <span id="eventName"></span></h5>
-                    <button type="button" class="close" data-dismiss="modal" onclick="closeViewFeedbackModal()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <ul id="feedbackList"></ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeViewFeedbackModal()">Close</button>
                 </div>
             </div>
         </div>

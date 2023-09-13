@@ -48,12 +48,13 @@
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
         <a href="{% url 'admin_calender' %}">Calendar</a>
         <a href="{% url 'admin_settings' %}">Settings</a>
+        <a href="{% url 'home' %}">Log Out</a>
+
     </div>
 
     <div class="content">
         <h1>Welcome to the Dashboard</h1>
         <!--  -->
-        <button class="btn btn-primary" id="viewFeedbacksButton">View Feedbacks</button>
 
         <button class="btn btn-primary add-event-btn" id="showStudentEventForm">Add Student Event</button>
 <!-- View Feedbacks Button with btn-primary class -->
@@ -95,6 +96,29 @@
         </form>
 
 
+<!-- Live Events Page -->
+{% for event in student_events %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="event">
+                    <h2 class="text-primary event-title">{{ event.title }}</h2>
+                    <p>
+                        <strong>Date:</strong> {{ event.date }}<br>
+                        <strong>Location:</strong> {{ event.location }}<br>
+                        <strong>Contact Person:</strong> {{ event.contact_person }}<br>
+                        <strong>Email:</strong> {{ event.email }}<br>
+                        <strong>Phone:</strong> {{ event.cell }}<br>
+                        <strong>Description:</strong> {{ event.description }}<br>
+                    </p>
+                    <a href="{% url 'std_feedbacks' event.title %}" class="btn btn-primary btn-feedback">View Feedback</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endfor %}
 
 
         </div>
