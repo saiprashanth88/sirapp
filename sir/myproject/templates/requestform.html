@@ -67,7 +67,9 @@
             <!-- Form on the left side -->
             <div class="col-lg-6">
                 <h2 class="mt-4">Request Form</h2>
-                <form id="requestForm" class="container-form">
+                <form id="requestForm" class="container-form" method="post">
+                    {% csrf_token %}
+
                     <!-- Form content here -->
                     <!-- Date Picker -->
                     <div class="form-group">
@@ -137,19 +139,19 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="year">Year:</label>
-                            <select class="form-control" id="year" name="year" required>
+                            <select class="form-control" id="year" name="year" >
                                 <option value="">Select Year</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="branch">Branch:</label>
-                            <select class="form-control" id="branch" name="branch" required>
+                            <select class="form-control" id="branch" name="branch">
                                 <option value="">Select Branch</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="semester">Semester:</label>
-                            <select class="form-control" id="semester" name="semester" required>
+                            <select class="form-control" id="semester" name="semester">
                                 <option value="">Select Semester</option>
                             </select>
                         </div>

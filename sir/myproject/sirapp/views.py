@@ -9,8 +9,36 @@ from django.db.models import Count
 import calendar
 from .models import StudentEvent, StudentEventFeedback
 from django.http import JsonResponse
-from .models import FacultyEventFeedback,OtherEvent, OtherEventFeedback
+from .models import FacultyEventFeedback,OtherEvent, OtherEventFeedback,RequestFormSubmission,ParticipantType
 import csv
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa  # Importing the module for pdf creation
+
+def pdf_template(request):
+    return render(request, "pdf_template")
+
+class GeneratePDF(View):
+    def get(self, request, event_title):
+        # Get the feedback data for the specified event
+        feedbacks = LectureEventFeedback.objects.filter(event__title=event_title)
+
+        # Create a PDF template using Django's template system
+        template = get_template('pdf_template.html')
+        context = {'feedbacks': feedbacks, 'event_title': event_title}
+        html = template.render(context)
+
+        # Create a PDF response
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{event_title}_feedback.pdf"'
+
+        # Generate the PDF and write it to the response
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('PDF generation error')
+
+        return response
 
 # Import any models or forms you may have here
 
@@ -350,3 +378,51 @@ def lec_login(request):
         events_by_month[(month, year)] = events
 
     return render(request, 'lec_login.html', {'events_by_month': events_by_month})
+
+
+def admin_request(request):
+    if request.method == 'POST':
+        # Get data from the request
+        date = request.POST.get('date')
+        program_type = request.POST.get('program_type')
+        program_topic = request.POST.get('program_topic')
+        program_duration = request.POST.get('program_duration')
+        start_time = request.POST.get('start_time')
+        end_time = request.POST.get('end_time')
+        participants_type = request.POST.getlist('participants_type')
+        course = request.POST.get('course')
+        year = request.POST.get('year')
+        branch = request.POST.get('branch')
+        semester = request.POST.get('semester')
+        mobile = request.POST.get('mobile')
+        email = request.POST.get('email')
+        terms_and_conditions = request.POST.get('terms_and_conditions')
+
+        # Create a new RequestFormSubmission object and save it
+        submission = RequestFormSubmission(
+            date=date,
+            program_type=program_type,
+            program_topic=program_topic,
+            program_duration=program_duration,
+            start_time=start_time,
+            end_time=end_time,
+            course=course,
+            year=year,
+            branch=branch,
+            semester=semester,
+            mobile=mobile,
+            email=email,
+            terms_and_conditions=terms_and_conditions
+        )
+        submission.save()
+
+    # Get ParticipantType objects by their names
+        participant_types = ParticipantType.objects.filter(name__in=participants_type)
+
+        # Set the ManyToMany field with the obtained ParticipantType objects
+        submission.participants_type.set(participant_types)
+
+
+    return render(request, 'request_form.html')
+
+

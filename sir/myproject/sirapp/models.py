@@ -89,3 +89,28 @@ class OtherEventFeedback(models.Model):
 
     def __str__(self):
         return f"Feedback for {self.event.title} on {self.event.date}"
+
+
+class RequestFormSubmission(models.Model):
+    date = models.DateField()
+    program_type = models.CharField(max_length=100)
+    program_topic = models.CharField(max_length=255, blank=True, null=True)
+    program_duration = models.FloatField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    participants_type = models.ManyToManyField('ParticipantType', blank=True)
+    course = models.CharField(max_length=100)
+    year = models.CharField(max_length=10)
+    branch = models.CharField(max_length=100)
+    semester = models.CharField(max_length=10)
+    mobile = models.CharField(max_length=10)
+    email = models.EmailField()
+    terms_and_conditions = models.BooleanField()
+
+    def __str__(self):
+        return f'Request Form Submission by {self.email}'
+class ParticipantType(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name

@@ -20,6 +20,8 @@
     {% else %}
         <p>No feedback available for this event.</p>
     {% endif %}
+    <a class="btn btn-primary" href="{% url 'generate_pdf' event_title %}" target="_blank">Download PDF</a>
+
 </body>
 </html>
 
