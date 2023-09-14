@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from sirapp import views
-from sirapp.views import GeneratePDF
+from sirapp.views import GeneratePDF,GenerateFacPDF,GenerateStdPDF
 # from . import views
 urlpatterns = [
     path('', views.index, name='home'),
@@ -35,9 +35,16 @@ urlpatterns = [
     path('lec_login/',views.lec_login, name ="lec_login"),
     # path('generate_pdf/<str:event_title>/',views.GeneratePDF, name='generate_pdf'),
     path('generate_pdf/<str:event_title>/', GeneratePDF.as_view(), name='generate_pdf'),
-    path('pdf_template/',views.pdf_template, name="pdf_template"),
-    path('admin_request/',views.admin_request, name="admin_request"),
+    path('generate_std_pdf/<str:event_title>/', GenerateStdPDF.as_view(), name='generate_std_pdf'),
 
+    path('generate_fac_pdf/<str:event_title>/', GenerateFacPDF.as_view(), name='generate_fac_pdf'),
+
+    path('pdf_template/',views.pdf_template, name="pdf_template"),
+    path('submit_request/',views.submit_request, name="submit_request"),
+
+    path('std_pdf/',views.std_pdf,name="std_pdf"),
+
+    path('fac_pdf/',views.fac_pdf,name="fac_pdf"),
 
 
 

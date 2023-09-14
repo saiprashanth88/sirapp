@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from .models import StudentEvent, FacultyEvent, LectureEvent,LectureEventFeedback
 from django.db.models import Count
 import calendar
-from .models import StudentEvent, StudentEventFeedback
+from .models import StudentEvent, StudentEventFeedback,UserRequest,TypeOfUser,ClgRequest
 from django.http import JsonResponse
 from .models import FacultyEventFeedback,OtherEvent, OtherEventFeedback,RequestFormSubmission,ParticipantType
 import csv
@@ -18,6 +18,10 @@ from xhtml2pdf import pisa  # Importing the module for pdf creation
 
 def pdf_template(request):
     return render(request, "pdf_template")
+def std_pdf(request):
+    return render(request, "std_pdf")
+def fac_pdf(request):
+    return render(request, "fac_pdf")
 
 class GeneratePDF(View):
     def get(self, request, event_title):
@@ -26,6 +30,48 @@ class GeneratePDF(View):
 
         # Create a PDF template using Django's template system
         template = get_template('pdf_template.html')
+        context = {'feedbacks': feedbacks, 'event_title': event_title}
+        html = template.render(context)
+
+        # Create a PDF response
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{event_title}_feedback.pdf"'
+
+        # Generate the PDF and write it to the response
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('PDF generation error')
+
+        return response
+
+class GenerateFacPDF(View):
+    def get(self, request, event_title):
+        # Get the feedback data for the specified event
+        feedbacks = OtherEventFeedback.objects.filter(event__title=event_title)
+
+        # Create a PDF template using Django's template system
+        template = get_template('fac_pdf.html')
+        context = {'feedbacks': feedbacks, 'event_title': event_title}
+        html = template.render(context)
+
+        # Create a PDF response
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{event_title}_feedback.pdf"'
+
+        # Generate the PDF and write it to the response
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('PDF generation error')
+
+        return response
+
+class GenerateStdPDF(View):
+    def get(self, request, event_title):
+        # Get the feedback data for the specified event
+        feedbacks = StudentEventFeedback.objects.filter(event__title=event_title)
+
+        # Create a PDF template using Django's template system
+        template = get_template('std_pdf.html')
         context = {'feedbacks': feedbacks, 'event_title': event_title}
         html = template.render(context)
 
@@ -380,26 +426,72 @@ def lec_login(request):
     return render(request, 'lec_login.html', {'events_by_month': events_by_month})
 
 
-def admin_request(request):
+# def admin_request(request):
+#     if request.method == 'POST':
+#         # Get data from the request
+#         date = request.POST.get('date')
+#         program_type = request.POST.get('program_type')
+#         program_topic = request.POST.get('program_topic')
+#         program_duration = request.POST.get('program_duration')
+#         start_time = request.POST.get('start_time')
+#         end_time = request.POST.get('end_time')
+#         participants_type = request.POST.getlist('participants_type')
+#         course = request.POST.get('course')
+#         year = request.POST.get('year')
+#         branch = request.POST.get('branch')
+#         semester = request.POST.get('semester')
+#         mobile = request.POST.get('mobile')
+#         email = request.POST.get('email')
+#         terms_and_conditions = request.POST.get('terms_and_conditions')
+
+#         # Create a new RequestFormSubmission object and save it
+#         submission = RequestFormSubmission(
+#             date=date,
+#             program_type=program_type,
+#             program_topic=program_topic,
+#             program_duration=program_duration,
+#             start_time=start_time,
+#             end_time=end_time,
+#             course=course,
+#             year=year,
+#             branch=branch,
+#             semester=semester,
+#             mobile=mobile,
+#             email=email,
+#             terms_and_conditions=terms_and_conditions
+#         )
+#         submission.save()
+
+#     # Get ParticipantType objects by their names
+#         participant_types = ParticipantType.objects.filter(name__in=participants_type)
+
+#         # Set the ManyToMany field with the obtained ParticipantType objects
+#         submission.participants_type.set(participant_types)
+
+
+#     return render(request, 'request_form.html')
+
+
+def submit_request(request):
     if request.method == 'POST':
-        # Get data from the request
+        # Retrieve data directly from the POST request
         date = request.POST.get('date')
-        program_type = request.POST.get('program_type')
-        program_topic = request.POST.get('program_topic')
-        program_duration = request.POST.get('program_duration')
-        start_time = request.POST.get('start_time')
-        end_time = request.POST.get('end_time')
-        participants_type = request.POST.getlist('participants_type')
+        program_type = request.POST.get('programType')
+        program_topic = request.POST.get('programTopic', '')
+        program_duration = request.POST.get('programDuration', None)
+        start_time = request.POST.get('startTime', None)
+        end_time = request.POST.get('endTime', None)
+        participants_type = request.POST.getlist('participantsType', [])
         course = request.POST.get('course')
         year = request.POST.get('year')
         branch = request.POST.get('branch')
         semester = request.POST.get('semester')
         mobile = request.POST.get('mobile')
         email = request.POST.get('email')
-        terms_and_conditions = request.POST.get('terms_and_conditions')
+        terms_and_conditions = request.POST.get('termsAndConditions') == 'on'
 
-        # Create a new RequestFormSubmission object and save it
-        submission = RequestFormSubmission(
+        # Create a new ClgRequest object and save it to the database
+        request_obj = ClgRequest(
             date=date,
             program_type=program_type,
             program_topic=program_topic,
@@ -412,17 +504,20 @@ def admin_request(request):
             semester=semester,
             mobile=mobile,
             email=email,
-            terms_and_conditions=terms_and_conditions
+            terms_and_conditions=terms_and_conditions,
         )
-        submission.save()
+        request_obj.save()
 
-    # Get ParticipantType objects by their names
-        participant_types = ParticipantType.objects.filter(name__in=participants_type)
+        # Handle participants_type (a ManyToMany field)
+        for participant_type in participants_type:
+            request_obj.participants_type.add(participant_type)
 
-        # Set the ManyToMany field with the obtained ParticipantType objects
-        submission.participants_type.set(participant_types)
+        messages.success(request, 'Your request has been submitted successfully!')
+        # return redirect('submit_request')  # Redirect to the form page after submission
+    return render(request, 'requestform.html')
 
+# def calendar_view(request):
+#     # You can retrieve and process events from your ClgRequest model here
+#     events = ClgRequest.objects.all()  # Assuming you have a start_date and end_date in your ClgRequest model
 
-    return render(request, 'request_form.html')
-
-
+#     return render(request, 'calendar.html', {'events': events})
