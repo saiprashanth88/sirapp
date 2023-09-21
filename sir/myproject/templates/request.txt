@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,64 +30,90 @@
                     <!-- Form content here -->
                     {% csrf_token %}
                     <!-- ... (same form content as in your previous code) -->
+                    <!-- Date Picker -->
+                    <div class="form-group">
+                        <label for="day">Day:</label>
+                        <input type="text" class="form-control" id="day" name="day">
+                    </div>
 
                     <div class="form-group">
-                        <label for="collegeName">College Name:</label>
-                        <input type="text" class="form-control" id="collegeName" name="college_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="days">Number of Days:</label>
-                        <input type="text" class="form-control" name="number_of_days">
-                    </div>
-                    <div class="form-group">
+                        <!-- <label for="date">Date:</label>
+                        <input type="text" class="form-control" id="date" name="date" required> -->
                         <label for="date">Date:</label>
                         <input type="date" class="form-control" id="date" name="date">
                     </div>
-                    <div class="form-group">
-                        <label for="modeOfEvent">Mode :</label>
-                        <select class="form-control" id="modeOfEvent" name="mode_of_event" required>
-                            <option value="Full day">Offline</option>
-                            <option value="Half day">Online</option>
-                        </select>
-                    </div>
 
-                    <!-- Program Type -->
-                    <div class="form-group">
-                        <label for="programType">Program Type:</label>
-                        <select class="form-control" id="programType" name="program_type" required>
-                            <option value="Guest Lecture">Guest Lecture</option>
-                            <option value="Faculty Development Program">Faculty Development Program</option>
-                            <option value="Student Development Program">Student Development Program</option>
-                        </select>
-                    </div>
+                    <!-- Mode and Number of Participants -->
+            <div class="form-group">
+                <label for="mode">Mode:</label>
+                <select class="form-control" id="mode" name="mode">
+                    <option>Offline</option>
+                    <option>Online</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="participants">Number of participants:</label>
+                <input type="number" class="form-control" id="participants" name="participants">
+            </div>
 
-                    <!-- Program Topic -->
-                    <div class="form-group">
-                        <label for="programTopic">Program Topic:</label>
-                        <input type="text" class="form-control" id="programTopic" name="program_topic" required>
-                    </div>
+            <!-- Contact Information -->
+            <div class="form-group">
+                <label for="contactName">Name of the Contact person:</label>
+                <input type="text" class="form-control" id="contactName" name="contactName">
+            </div>
+            <div class="form-group">
+                <label for="institution">Name of the Institution:</label>
+                <input type="text" class="form-control" id="institution" name="institution">
+            </div>
 
-                    <!-- Program Duration -->
-                    <div class="form-group">
-                        <label for="programDuration">Program Duration</label>
-                        <select class="form-control" id="programDuration" name="program_duration" required>
-                            <option value="Full day">Full day</option>
-                            <option value="Half day">Half day</option>
-                        </select>
-                    </div>
+            <div class="form-group">
+                <label for="mobile">Mobile / WhatsApp number:</label>
+                <input type="tel" class="form-control" id="mobile" name="mobile" pattern="[0-9]{10}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
 
-                    <div class="form-group">
-                        <label for="startTime">Program Timings:</label>
-                        <div class="input-group">
-                            <input type="time" class="form-control" id="startTime" name="start_time" placeholder="From" required>
-                            <input type="time" class="form-control" id="endTime" name="end_time" placeholder="To" required>
-                        </div>
-                    </div>
+            <!-- Program Type Selection -->
+            <div class="form-group">
+                <label for="programType">Select Program Type:</label>
+                <select class="form-control" id="programType" name="programType">
+                    <option value="guestLecture">Guest Lecture</option>
+                    <option value="facultyDevelopment">Faculty Development Program</option>
+                    <option value="studentDevelopment">Student Development Program</option>
+                </select>
+            </div>
 
-                    <!-- Course Selection -->
+            <!-- Guest Lecture Details -->
+            <div id="guestLecture" style="display: none;">
+                <div class="form-group">
+                    <label for="topicGuest">Topic:</label>
+                    <input type="text" class="form-control" id="topicGuest" name="topicGuest">
+                </div>
+                <div class="form-group">
+                    <label for="durationGuest">Duration (hrs):</label>
+                    <input type="text" class="form-control" id="durationGuest" name="durationGuest">
+                </div>
+                <div class="form-group">
+                    <label for="fromTimeGuest">From:</label>
+                    <input type="text" class="form-control" id="fromTimeGuest" name="fromTimeGuest">
+                </div>
+                <div class="form-group">
+                    <label for="toTimeGuest">To:</label>
+                    <input type="text" class="form-control" id="toTimeGuest" name="toTimeGuest">
+                </div>
+                <div class="form-group">
+                    <label for="participantTypeGuest">Type of participants:</label>
+                    <select class="form-control" id="participantTypeGuest" name="participantTypeGuest">
+                        <option>Students</option>
+                        <option>Faculty</option>
+                    </select>
+                </div>
+                <div id="studentDetailsGuest" style="display: none;">
                     <div class="form-group">
-                        <label for="course">Course:</label>
-                        <select class="form-control" id="course" name="course">
+                        <label for="courseGuest">Course:</label>
+                        <select class="form-control" id="courseGuest" name="courseGuest">
                             <option value="select course">Select course</option>
                             <option value="B Tech">B Tech</option>
                             <option value="B Pharmacy">B Pharmacy</option>
@@ -97,55 +124,108 @@
                             <option value="B Sc">B Sc</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-4">
+                        <label for="year">Year:</label>
+                        <select class="form-control" id="year" name="year">
+                            <option value="">Select Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="branch">Branch:</label>
+                        <select class="form-control" id="branch" name="branch" >
+                            <option value="">Select Branch</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="semester">Semester:</label>
+                        <select class="form-control" id="semester" name="semester">
+                            <option value="">Select Semester</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
 
-                    <!-- Year, Branch, Semester -->
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="year">Year:</label>
-                            <select class="form-control" id="year" name="year">
-                                <option value="">Select Year</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="branch">Branch:</label>
-                            <select class="form-control" id="branch" name="branch">
-                                <option value="">Select Branch</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="semester">Semester:</label>
-                            <select class="form-control" id="semester" name="semester" >
-                                <option value="">Select Semester</option>
-                            </select>
-                        </div>
+            <!-- Faculty Development Program Details -->
+            <div id="facultyDevelopment" style="display: none;">
+                <div class="form-group">
+                    <label for="topicFaculty">Topic:</label>
+                    <input type="text" class="form-control" id="topicFaculty" name="topicFaculty">
+                </div>
+                <div class="form-group">
+                    <label for="durationFaculty">Duration:</label>
+                    <select class="form-control" id="durationFaculty" name="durationFaculty">
+                        <option>Full day</option>
+                        <option>Half day</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fromTimeFaculty">From:</label>
+                    <input type="text" class="form-control" id="fromTimeFaculty" name="fromTimeFaculty">
+                </div>
+                <div class="form-group">
+                    <label for="toTimeFaculty">To:</label>
+                    <input type="text" class="form-control" id="toTimeFaculty" name="toTimeFaculty">
+                </div>
+            </div>
+
+            <!-- Student Development Program Details -->
+            <div id="studentDevelopment" style="display: none;">
+                <div class="form-group">
+                    <label for="topicStudent">Topic:</label>
+                    <input type="text" class="form-control" id="topicStudent" name="topicStudent">
+                </div>
+                <div class="form-group">
+                    <label for="durationStudent">Duration:</label>
+                    <select class="form-control" id="durationStudent" name="durationStudent">
+                        <option>Full day</option>
+                        <option>Half day</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="course">Course:</label>
+                    <select class="form-control course-dropdown" id="course" name="course" required>
+                        <option value="select course">Select course</option>
+                        <option value="B Tech">B Tech</option>
+                        <option value="B Pharmacy">B Pharmacy</option>
+                        <option value="MBA">MBA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="B Com">B Com</option>
+                        <option value="BA">BA</option>
+                        <option value="B Sc">B Sc</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="year">Year:</label>
+                        <select class="form-control" id="studentYear" name="studentYear" required>
+                            <option value="">Select Year</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="name">Contact Person Name: </label>
-                        <input type="text" class="form-control" id="name" name="name" maxlength="128" required>
+                        <label for="branch">Branch:</label>
+                        <select class="form-control" id="studentBranch" name="studentBranch" required>
+                            <option value="">Select Branch</option>
+                        </select>
                     </div>
-
-                    <!-- Mobile Number -->
                     <div class="form-group">
-                        <label for="mobile">Mobile / WhatsApp Number:</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" maxlength="10" required>
+                        <label for="semester">Semester:</label>
+                        <select class="form-control" id="studentSemester" name="studentSemester" required>
+                            <option value="">Select Semester</option>
+                        </select>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-
-                    <!-- Terms and Conditions Checkbox -->
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="termsAndConditions" name="terms_and_conditions" required>
-                        <label class="custom-control-label" for="termsAndConditions">
-                            I agree to the <a href="#" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a>
-                        </label>
-                    </div>
+             <!-- Terms and Conditions Checkbox -->
+             <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="termsAndConditions" required>
+                <label class="custom-control-label" for="termsAndConditions">
+                    I agree to the <a href="#" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a>
+                </label>
+            </div>
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary mt-3" name="submit">Submit</button>
-                </form>
+                    <button type="submit">Submit</button>
+            </form>
             </div>
 
             <!-- Calendar widget on the right side -->
@@ -266,50 +346,67 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+            $("#programType").change(function () {
+                var selectedOption = $(this).val();
+                // Hide all program type sections
+                $("#guestLecture, #facultyDevelopment, #studentDevelopment").hide();
+                // Show the selected program type section
+                $("#" + selectedOption).show();
 
-$('#course').change(function () {
-            var selectedCourse = $(this).val();
-            var yearOptions = {
-                'B Tech': ['1st Year', '2nd Year', '3rd Year', '4th Year'],
-                'B Pharmacy': ['1st Year', '2nd Year', '3rd Year', '4th Year'],
-                'MBA': ['1st Year', '2nd Year'],
-                'BBA': ['1st Year', '2nd Year'],
-                'B Com': ['1st Year', '2nd Year', '3rd Year'],
-                'BA': ['1st Year', '2nd Year', '3rd Year'],
-                'B Sc': ['1st Year', '2nd Year', '3rd Year'],
-            };
-
-            var branchOptions = {
-                'B Tech': ['Computer Science', 'Electrical Engineering','Electronics and Communication Engineering' ,'Mechanical Engineering', 'Civil Engineering'],
-                'B Pharmacy': ['Pharmacy'],
-                'MBA': ['MBA'],
-                'BBA': ['BBA'],
-                'B Com': ['Commerce'],
-                'BA': ['Arts'],
-                'B Sc': ['Science'],
-            };
-
-            // Populate year dropdown based on the selected course
-            var yearDropdown = $('#year');
-            yearDropdown.empty();
-            $.each(yearOptions[selectedCourse], function (index, value) {
-                yearDropdown.append($('<option>').text(value).attr('value', value));
+                // Hide/show student details based on program type
+                if (selectedOption === "guestLecture") {
+                    $("#studentDetailsGuest").show();
+                } else {
+                    $("#studentDetailsGuest").hide();
+                }
             });
-
-            // Populate branch dropdown based on the selected course
-            var branchDropdown = $('#branch');
-            branchDropdown.empty();
-            $.each(branchOptions[selectedCourse], function (index, value) {
-                branchDropdown.append($('<option>').text(value).attr('value', value));
-            });
-
-            // Populate semester dropdown based on the selected course
-            var semesterDropdown = $('#semester');
-            semesterDropdown.empty();
-            for (var i = 1; i <= 2; i++) {
-                semesterDropdown.append($('<option>').text('Semester ' + i).attr('value', i));
-            }
         });
+
+        $('.course-dropdown').change(function () {
+    var selectedCourse = $(this).val();
+    var yearOptions = {
+        'B Tech': ['1st Year', '2nd Year', '3rd Year', '4th Year'],
+        'B Pharmacy': ['1st Year', '2nd Year', '3rd Year', '4th Year'],
+        'MBA': ['1st Year', '2nd Year'],
+        'BBA': ['1st Year', '2nd Year'],
+        'B Com': ['1st Year', '2nd Year', '3rd Year'],
+        'BA': ['1st Year', '2nd Year', '3rd Year'],
+        'B Sc': ['1st Year', '2nd Year', '3rd Year'],
+    };
+
+    var branchOptions = {
+        'B Tech': ['Computer Science', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering'],
+        'B Pharmacy': ['Pharmacy'],
+        'MBA': ['MBA'],
+        'BBA': ['BBA'],
+        'B Com': ['Commerce'],
+        'BA': ['Arts'],
+        'B Sc': ['Science'],
+    };
+
+    // Populate year dropdown based on the selected course
+    var yearDropdown = $('#studentYear');
+    yearDropdown.empty();
+    $.each(yearOptions[selectedCourse], function (index, value) {
+        yearDropdown.append($('<option>').text(value).attr('value', value));
+    });
+
+    // Populate branch dropdown based on the selected course
+    var branchDropdown = $('#studentBranch');
+    branchDropdown.empty();
+    $.each(branchOptions[selectedCourse], function (index, value) {
+        branchDropdown.append($('<option>').text(value).attr('value', value));
+    });
+
+    // Populate semester dropdown based on the selected course
+    var semesterDropdown = $('#studentSemester');
+    semesterDropdown.empty();
+    for (var i = 1; i <= 8; i++) {
+        semesterDropdown.append($('<option>').text('Semester ' + i).attr('value', i));
+    }
+});
+
         // Initialize FullCalendar and your other scripts
         // ...
         $(document).ready(function () {
@@ -345,6 +442,14 @@ $('#course').change(function () {
                     title: 'Seminar at CMR, Medchal',
                     start: '2023-09-15T10:00',
                     end: '2023-09-15T12:00',
+                    color: 'red',
+                    textColor: 'black'
+
+                },
+               {
+                    title: 'Seminar, Medchal',
+                    start: '2023-09-19T10:00',
+                    end: '2023-09-21T12:00',
                     color: 'red',
                     textColor: 'black'
                 }],

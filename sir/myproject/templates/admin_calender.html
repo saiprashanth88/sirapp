@@ -42,7 +42,7 @@
 <body>
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
-        <a href="{% url 'admin_lectures' %}">Lectures & Seminars</a>
+        <!-- <a href="{% url 'admin_lectures' %}">Lectures & Seminars</a> -->
         <a href="{% url 'admin_std_events' %}">Student Execlusive Events</a>
         <a href="{% url 'admin_fac_events' %}" >Faculty Exclusive Events</a>
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
@@ -54,11 +54,44 @@
 
     <div class="content">
         <h1>Welcome to the Dashboard</h1>
-        <!--  -->
 
-
-
-        </div>
+        {% if events %}
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for event in events %}
+                        <div class="event">
+                            <h2 class="text-primary event-title">{{ event.date }}</h2>
+                            <p>
+                                <strong>College Name:</strong> {{ event.college_name }}<br>
+                                <strong>Date:</strong> {{ event.date }}<br>
+                                <strong>Program Topic:</strong> {{ event.program_topic }}<br>
+                                <strong>Program Type:</strong> {{ event.program_type }}<br>
+                                <strong>Start Time:</strong> {{ event.start_time }}<br>
+                                <strong>Contact Person's Mobile:</strong> {{ event.mobile }}<br>
+                                <strong>Email:</strong> {{ event.email }}<br>
+                            </p>
+                            <div class="btn-group" role="group">
+                                <form method="POST" action="#">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Accept</button>
+                                </form>
+                                <form method="POST" action="#">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <p>No events available.</p>
+        {% endif %}
+    </div>
     </div>
 
     <!-- Add Bootstrap JS and jQuery -->
