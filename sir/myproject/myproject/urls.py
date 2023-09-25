@@ -41,18 +41,23 @@ urlpatterns = [
 
     path('pdf_template/',views.pdf_template, name="pdf_template"),
     path('submit_request/',views.submit_request, name="submit_request"),
+    path('get_events/', views.get_events, name='get_events'),
+
 
     path('std_pdf/',views.std_pdf,name="std_pdf"),
 
     path('fac_pdf/',views.fac_pdf,name="fac_pdf"),
+    path('cal',views.cal,name = 'cal'),
+    path('all_events/', views.all_events, name='all_events'),
+    path('add_event/', views.add_event, name='add_event'),
+    path('update/', views.update, name='update'),
+    path('remove/', views.remove, name='remove'),
+    path('usercal/',views.usercal,name = "usercal"),
 
 
+    path('send_email/<str:email>/<str:event_name>/', views.send_email, name='send_email'),
 
-
-
-
-
-
+    path('send_reject_email/<str:email>/<str:event_name>/', views.send_reject_email, name='send_reject_email'),
 
 
 

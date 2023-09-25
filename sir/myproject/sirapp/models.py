@@ -239,6 +239,21 @@ class FinalRequest(models.Model):
     mobile = models.CharField(max_length=10, verbose_name='Mobile/WhatsApp Number')
     email = models.EmailField(verbose_name='Email')
     terms_and_conditions = models.BooleanField(verbose_name='Agree to Terms and Conditions')
+    acknowledgement = models.BooleanField(default=False, verbose_name='Acknowledgement')
 
     def __str__(self):
         return f"Request from {self.college_name}"
+
+
+
+
+
+
+class CalEvents(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255,null=True,blank=True)
+    start = models.DateTimeField(null=True,blank=True)
+    end = models.DateTimeField(null=True,blank=True)
+
+    class Meta:
+        db_table = "tblevents"

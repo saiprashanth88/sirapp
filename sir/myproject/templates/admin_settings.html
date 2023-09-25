@@ -47,7 +47,7 @@
         <a href="{% url 'admin_fac_events' %}" >Faculty Exclusive Events</a>
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
         <a href="{% url 'admin_calender' %}">Request</a>
-        <a href="{% url 'admin_settings' %}">Settings</a>
+        <a href="{% url 'cal' %}">Calender Settings</a>
         <a href="{% url 'home' %}">Log Out</a>
 
     </div>
@@ -55,20 +55,49 @@
     <div class="content">
         <h1>Welcome to the Dashboard</h1>
         <!--  -->
+        <div id="calendar" class="container">calender</div>
 
 
 
         </div>
     </div>
 
-    <!-- Add Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css">
 
+    <script>
+       $(document).ready(function () {
+            // Initialize the FullCalendar
+            $('#calendar').fullCalendar({
+                selectable: true,
+                selectHelper: true,
+                select: function () {
+                    $('#termsModal').modal('toggle');
+                },
+                header: {
+                    left: '',
+                    center: 'title',
+                    right: 'prev, today, next'
+                },
+                buttonText: {
+                    today: 'Today',
+                    month: 'Month',
+                    week: 'Week',
+                    day: 'Day',
+                    list: 'List'
+                },
+                events: [{
+                    title: 'Seminar at CMR, Medchal',
+                    start: '2023-09-15T10:00',
+                    end: '2023-09-15T12:00',
+                    color: 'red',
+                    textColor: 'black'
+                }],
+                dayRender: function (date, cell) {
+                    var newdate = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
+                },
+            });
+        });
+    </script>
 
 </body>
 </html>

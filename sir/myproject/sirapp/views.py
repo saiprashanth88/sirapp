@@ -9,13 +9,58 @@ from django.db.models import Count
 import calendar
 from .models import StudentEvent, StudentEventFeedback,ClgRequest,PrincipalRequest,Requestsir,FinalRequest
 from django.http import JsonResponse
-from .models import FacultyEventFeedback,OtherEvent, OtherEventFeedback
+from .models import FacultyEventFeedback,OtherEvent, OtherEventFeedback,CalEvents
 import csv
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa  # Importing the module for pdf creation
+from django.core.mail import send_mail
+from django.core.exceptions import MultipleObjectsReturned
 
+def send_email(request,email,event_name):
+    subject = "Your Request has been Accepted"
+    message = "Your request has been accepted."
+    from_email = "professorsaikumarml@gmail.com"  # Replace with your sender email
+    recipient_list = [email]
+
+    # Send the email using the send_mail function
+    send_mail(subject, message, from_email, recipient_list)
+    try:
+        events = FinalRequest.objects.filter(email=email, program_topic = event_name)
+        for event in events:
+            event.acknowledgement = True
+            event.save()
+        messages.success(request, f"Email sent and acknowledgment updated for event: {event_name}")
+
+    except FinalRequest.DoesNotExist:
+        pass
+    except MultipleObjectsReturned:
+        pass
+
+    return render(request, "admin_calender.html")
+
+
+def send_reject_email(request,email,event_name):
+    subject = "Your Request has been Rejected"
+    message = "Your request has been Rejected, Please kindly change date."
+    from_email = "professorsaikumarml@gmail.com"  # Replace with your sender email
+    recipient_list = [email]
+
+    # Send the email using the send_mail function
+    send_mail(subject, message, from_email, recipient_list)
+    try:
+        events = FinalRequest.objects.filter(email=email, program_topic = event_name)
+        for event in events:
+            event.acknowledgement = True
+            event.save()
+        messages.success(request, f"Email sent and acknowledgment updated for event: {event_name}")
+
+    except FinalRequest.DoesNotExist:
+        pass
+    except MultipleObjectsReturned:
+        pass
+    return render(request, "admin_calender.html")
 def pdf_template(request):
     return render(request, "pdf_template")
 def std_pdf(request):
@@ -371,7 +416,7 @@ def submit_faculty_event_feedback(request):
 
 def admin_calender(request):
 
-    events = FinalRequest.objects.all()
+    events = FinalRequest.objects.filter(acknowledgement=False)
 
     context = {
             'events' : events
@@ -379,6 +424,20 @@ def admin_calender(request):
         # print(context)
     return render(request, "admin_calender.html",context)
 
+def get_events(request):
+    events = FinalRequest.objects.all()
+    event_data = []
+
+    for event in events:
+        event_data.append({
+            'title': event.program_topic,
+            'start': event.start_time(),
+            'end': event.end_time(),
+            # Replace with the actual field name in your model
+             # Replace with the actual field name in your model
+        })
+
+    return JsonResponse(event_data, safe=False)
 def admin_settings(request):
     return render(request, "admin_settings.html")
 
@@ -462,6 +521,12 @@ def submit_request(request):
         mobile = request.POST.get('mobile')
         email = request.POST.get('email')
         terms_and_conditions = request.POST.get('terms_and_conditions') == 'on'
+        event = {
+            'title': program_topic,
+            'start': f'{date}T{start_time}',
+            'end': f'{date}T{end_time}',
+            # Add other event properties here
+        }
 
         # Create a new Request instance and save it to the database
         request_instance = FinalRequest(
@@ -484,10 +549,78 @@ def submit_request(request):
             terms_and_conditions=terms_and_conditions
         )
         request_instance.save()
+    messages.success(request, "Your Response has been recorded")
+
+    events = FinalRequest.objects.all()
+    event_data = []
+
+    for event in events:
+        event_data.append({
+            'title': event.program_topic,
+            'start': event.start_time,
+            'end': event.end_time,
+            # Add other event properties here
+        })
+
 
 
 
         # Redirect to a success page or perform other actions
         # return redirect('success_page')  # Replace 'success_page' with the actual URL name of your success page
 
-    return render(request, 'requestform.html')
+    return render(request, 'requestform.html',{'event_data': event_data})
+
+
+
+def cal(request):
+    all_events = CalEvents.objects.all()
+    context = {
+        "events":all_events,
+    }
+    return render(request,'cal.html',context)
+def all_events(request):
+    all_events = CalEvents.objects.all()
+    out = []
+    for event in all_events:
+        out.append({
+            'title': event.name,
+            'id': event.id,
+            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),
+            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),
+        })
+
+    return JsonResponse(out, safe=False)
+
+def add_event(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    event = CalEvents(name=str(title), start=start, end=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+    event = CalEvents.objects.get(id=id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+
+def remove(request):
+    id = request.GET.get("id", None)
+    event = CalEvents.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
+def usercal(request):
+    return render(request, "usercal.html")
+
+
+

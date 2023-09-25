@@ -149,9 +149,9 @@
             </div>
 
             <!-- Calendar widget on the right side -->
-            <div class="col-lg-6">
+            <!-- <div class="col-lg-6">
                 <div id="calendar"></div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- Terms and Conditions Modal -->
@@ -258,12 +258,10 @@
 
     <!-- Include Bootstrap JS and other scripts here -->
 
-    <!-- Your other scripts go here -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 
     <script>
 
@@ -321,44 +319,10 @@ $('#course').change(function () {
 
         // ... (your other JavaScript code)
     });
-        $(document).ready(function () {
-            // Initialize the FullCalendar
-            $('#calendar').fullCalendar({
-                selectable: true,
-                selectHelper: true,
-                select: function () {
-                    $('#termsModal').modal('toggle');
-                },
-                header: {
-                    left: '',
-                    center: 'title',
-                    right: 'prev, today, next'
-                },
-                buttonText: {
-                    today: 'Today',
-                    month: 'Month',
-                    week: 'Week',
-                    day: 'Day',
-                    list: 'List'
-                },
-                events: [{
-                    title: 'Seminar at CMR, Medchal',
-                    start: '2023-09-15T10:00',
-                    end: '2023-09-15T12:00',
-                    color: 'red',
-                    textColor: 'black'
-                }],
-                dayRender: function (date, cell) {
-                    var newdate = $.fullCalendar.formatDate(date, 'DD-MM-YYYY');
-                },
-            });
-        });
     </script>
 </body>
 </html>
 
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' />
 
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -367,9 +331,3 @@ $('#course').change(function () {
     <!-- FullCalendar CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-     <!-- Create a custom CSS file for your styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

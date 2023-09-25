@@ -47,7 +47,7 @@
         <a href="{% url 'admin_fac_events' %}" >Faculty Exclusive Events</a>
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
         <a href="{% url 'admin_calender' %}">Requests</a>
-        <a href="{% url 'admin_settings' %}">Settings</a>
+        <a href="{% url 'cal' %}">Calender Settings</a>
         <a href="{% url 'home' %}">Log Out</a>
 
     </div>
@@ -75,11 +75,11 @@
                             <div class="btn-group" role="group">
                                 <form method="POST" action="#">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-success">Accept</button>
+                                    <a href="{% url 'send_email' email=event.email event_name=event.program_topic %}" class="btn btn-success">Accept</a>
                                 </form>
                                 <form method="POST" action="#">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                    <a href="{% url 'send_reject_email' email=event.email event_name=event.program_topic %}" class="btn btn-danger">Reject</a>
                                 </form>
                             </div>
                         </div>
