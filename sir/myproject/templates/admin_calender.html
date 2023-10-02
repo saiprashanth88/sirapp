@@ -34,6 +34,14 @@
             margin-left: 250px;
             padding: 20px;
         }
+        .event {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css">
@@ -43,11 +51,12 @@
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
         <!-- <a href="{% url 'admin_lectures' %}">Lectures & Seminars</a> -->
-        <a href="{% url 'admin_std_events' %}">Student Execlusive Events</a>
+        <a href="{% url 'admin_std_events' %}">Student Exclusive Events</a>
         <a href="{% url 'admin_fac_events' %}" >Faculty Exclusive Events</a>
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
-        <a href="{% url 'admin_calender' %}">Requests</a>
+        <a href="{% url 'admin_calender' %}" style="background-color: #007bff;">Requests</a>
         <a href="{% url 'cal' %}">Calender Settings</a>
+        <a href="{% url 'newsreport' %}">News Report</a>
         <a href="{% url 'home' %}">Log Out</a>
 
     </div>
@@ -75,10 +84,11 @@
                             <div class="btn-group" role="group">
                                 <form method="POST" action="#">
                                     {% csrf_token %}
-                                    <a href="{% url 'send_email' email=event.email event_name=event.program_topic %}" class="btn btn-success">Accept</a>
+                                    <a href="{% url 'send_email' email=event.email event_name=event.program_topic event_type=event.program_type %}" class="btn btn-success">Accept</a>
                                 </form>
                                 <form method="POST" action="#">
                                     {% csrf_token %}
+                                    &nbsp;&nbsp;
                                     <a href="{% url 'send_reject_email' email=event.email event_name=event.program_topic %}" class="btn btn-danger">Reject</a>
                                 </form>
                             </div>

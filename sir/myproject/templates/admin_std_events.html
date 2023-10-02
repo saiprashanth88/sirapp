@@ -34,6 +34,14 @@
             margin-left: 250px;
             padding: 20px;
         }
+        .event {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css">
@@ -43,11 +51,12 @@
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
         <!-- <a href="{% url 'admin_lectures' %}">Lectures & Seminars</a> -->
-        <a href="{% url 'admin_std_events' %}">Student Execlusive Events</a>
+        <a href="{% url 'admin_std_events' %}" style="background-color: #007bff;">Student Exclusive Events</a>
         <a href="{% url 'admin_fac_events' %}" >Faculty Exclusive Events</a>
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
         <a href="{% url 'admin_calender' %}">Requests</a>
         <a href="{% url 'cal' %}">Calender Settings</a>
+        <a href="{% url 'newsreport' %}">News Report</a>
         <a href="{% url 'home' %}">Log Out</a>
 
     </div>
@@ -57,12 +66,14 @@
         <!--  -->
 
         <button class="btn btn-primary add-event-btn" id="showStudentEventForm">Add Student Event</button>
+        <br><br>
 <!-- View Feedbacks Button with btn-primary class -->
 
         <!-- Student Event Form -->
         <form method="post" class="event-form" id="studentEventForm" style="display: none;">
             {% csrf_token %}
             <h2>Add Student Event</h2>
+
             {% if messages %}
                 <div class="alert alert-success">
                     <ul>
@@ -107,12 +118,14 @@
                     <p>
                         <strong>Date:</strong> {{ event.date }}<br>
                         <strong>Location:</strong> {{ event.location }}<br>
-                        <strong>Contact Person:</strong> {{ event.contact_person }}<br>
-                        <strong>Email:</strong> {{ event.email }}<br>
-                        <strong>Phone:</strong> {{ event.cell }}<br>
+                        <strong>College:</strong> {{ event.college }}<br>
+                        <!-- <strong>Email:</strong> {{ event.email }}<br>
+                        <strong>Phone:</strong> {{ event.cell }}<br> -->
                         <strong>Description:</strong> {{ event.description }}<br>
                     </p>
-                    <a href="{% url 'std_feedbacks' event.title %}" class="btn btn-primary btn-feedback">View Feedback</a>
+                    <a href="{% url 'std_feedbacks' event.title %}" class="btn btn-primary btn-feedback">View Feedback</a>&nbsp;&nbsp;
+                    <a href="{% url 'deleteStdevents' event.title event.date %}" class="btn btn-danger">Delete Event</a>
+
                 </div>
             </div>
         </div>

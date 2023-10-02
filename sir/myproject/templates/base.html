@@ -16,33 +16,121 @@
             background-color: rgb(234, 49, 49);
         }
 
+        /* Add this to your existing CSS */
+.fc-event {
+    background-color: blue;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+    white-space: nowrap;
+    position: relative;
+}
 
+.fc-event:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    white-space: nowrap;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    z-index: 1000;
+}
 
-        .fc-event {
-            background-color: blue; /* Background color for events */
-            color: white; /* Text color for events */
-        }
 
         .fc-highlight {
             background-color: blue; /* Background color for entire day when an event is present */
         }
         #calendar {
             border: 5px solid black;
+            max-width: 80%; /* Set a maximum width for the calendar */
+            margin: 0 auto;
+            text-align: center; /* Center the calendar on the page */
         }
         .fc-row.fc-widget-header td, .fc-row.fc-widget-content td {
             border: 1px solid black;
         }
-
+        body {
+            background-color: #f8f9fa;
+        }
+        /* .sidebar {
+            background-color: #343a40;
+            color: #ffffff;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            width: 250px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #ffffff;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        } */
+        .sidebar {
+            background-color: #343a40;
+            color: #ffffff;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #ffffff;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        /* Add styles to prevent content from overlapping the sidebar */
+        .col-md-10 {
+            padding-left: 0;
+        }
     </style>
 </head>
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="sidebar">
+                    <h2>Admin Dashboard</h2>
+                    <!-- Add your sidebar links here -->
+                    <a href="{% url 'admin_std_events' %}">Student Exclusive Events</a>
+                    <a href="{% url 'admin_fac_events' %}">Faculty Exclusive Events</a>
+                    <a href="{% url 'admin_calender' %}">Requests</a>
 
-<div class="container">
- <div class="row">
-    <h4>My Calender</h4>
-    {% block content %}{% endblock %}
- </div>
-</div>
+
+                    <a href="{% url 'cal' %}" style="background-color: #007bff;">Calendar Settings</a>
+                    <a href="{% url 'newsreport' %}">News Report</a>
+                    <a href="{% url 'home' %}">Log Out</a>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <h4 style="text-align: center;">My Calendar</h4>
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
 <script>
    $(document).ready(function () {
        var calendar = $('#calendar').fullCalendar({
@@ -112,7 +200,7 @@
                        alert('Event Update');
                    },
                    error: function (data) {
-                       alert('There is a problem!!!');
+                    alert('You Cannot edit Here, Delete event in Events Page!!!');
                    }
                });
            },
@@ -130,7 +218,7 @@
                            alert('Event Removed');
                        },
                        error: function (data) {
-                           alert('There is a problem!!!');
+                           alert('You Cannot edit Here, Delete event in Events Page!!!');
                        }
                    });
                }

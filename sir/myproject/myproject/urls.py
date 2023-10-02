@@ -55,9 +55,14 @@ urlpatterns = [
     path('usercal/',views.usercal,name = "usercal"),
 
 
-    path('send_email/<str:email>/<str:event_name>/', views.send_email, name='send_email'),
+    path('send_email/<str:email>/<str:event_name>/<str:event_type>/', views.send_email, name='send_email'),
 
     path('send_reject_email/<str:email>/<str:event_name>/', views.send_reject_email, name='send_reject_email'),
+    path('newsreport/',views.newsreport, name='newsreport'),
+    path('filter_events/', views.filter_events, name='filter_events'),
+    path('deleteStdevents/<str:event_title>/<str:event_date>/', views.deleteStdevents, name='deleteStdevents'),
+
+    path('deleteFacevents/<str:event_title>/<str:event_date>/', views.deleteFacevents, name='deleteFacevents'),
 
 
 

@@ -18,7 +18,7 @@ from xhtml2pdf import pisa  # Importing the module for pdf creation
 from django.core.mail import send_mail
 from django.core.exceptions import MultipleObjectsReturned
 
-def send_email(request,email,event_name):
+def send_email(request,email,event_name,event_type):
     subject = "Your Request has been Accepted"
     message = "Your request has been accepted."
     from_email = "professorsaikumarml@gmail.com"  # Replace with your sender email
@@ -27,11 +27,32 @@ def send_email(request,email,event_name):
     # Send the email using the send_mail function
     send_mail(subject, message, from_email, recipient_list)
     try:
-        events = FinalRequest.objects.filter(email=email, program_topic = event_name)
+        events = FinalRequest.objects.filter(email=email, program_topic=event_name)
         for event in events:
             event.acknowledgement = True
             event.save()
-        messages.success(request, f"Email sent and acknowledgment updated for event: {event_name}")
+            if event_type == "Student Development Program":
+                student_event = StudentEvent(
+                    title=event_name,
+                    date=event.date,
+                    college=event.college_name,
+                    location = event.college_name + "Telangana, India",
+
+                    description="On " + str(event.date) + " conduted " + event_name
+                )
+                student_event.save()
+            elif event_type == "Faculty Development Program":
+                faculty_event = OtherEvent(
+                    title=event_name,
+                    date=event.date,
+                    contact_person=event.name,
+                    email=event.email,
+                    cell=event.mobile,  # Use 'mobile' from the function parameter
+                    description="On " + str(event.date) + " conduted " + event_name
+                )
+                faculty_event.save()
+
+
 
     except FinalRequest.DoesNotExist:
         pass
@@ -54,7 +75,7 @@ def send_reject_email(request,email,event_name):
         for event in events:
             event.acknowledgement = True
             event.save()
-        messages.success(request, f"Email sent and acknowledgment updated for event: {event_name}")
+
 
     except FinalRequest.DoesNotExist:
         pass
@@ -238,10 +259,44 @@ def studentevents(request):
     for date in months_years:
         month = date.strftime('%B')
         year = date.year
-        events = StudentEvent.objects.filter(date__month=date.month, date__year=year)
+        events = StudentEvent.objects.filter(date__month=date.month, date__year=year, deleted=False)
         events_by_month[(month, year)] = events
 
     return render(request, 'studentevents.html', {'events_by_month': events_by_month})
+from django.shortcuts import get_object_or_404
+
+def deleteStdevents(request,event_title, event_date):
+
+    event = get_object_or_404(StudentEvent, title=event_title, date=event_date)
+    event.deleted = True
+    event.save()
+
+    return render(request, 'admin_std_events.html')
+
+def deleteFacevents(request,event_title, event_date):
+
+    event = get_object_or_404(OtherEvent, title=event_title, date=event_date)
+    event.deleted = True
+    event.save()
+
+    return render(request, 'admin_fac_events.html')
+
+from datetime import datetime
+
+def filter_events(request):
+    selected_month = request.GET.get('month')
+
+    if selected_month:
+        selected_date = datetime.strptime(selected_month, '%Y-%m')
+
+        faculty_events = OtherEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year)
+        student_events = StudentEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year)
+    else:
+        faculty_events = OtherEvent.objects.all()
+        student_events = StudentEvent.objects.all()
+
+    return render(request, 'newsreport.html', {'faculty_events': faculty_events, 'student_events': student_events})
+
 
 def liveevents(request):
     return render(request, "liveevents.html")
@@ -267,7 +322,7 @@ def facultyevents(request):
     for date in months_year:
         month = date.strftime('%B')
         year = date.year
-        events = OtherEvent.objects.filter(date__month=date.month, date__year=year).order_by('-date')
+        events = OtherEvent.objects.filter(date__month=date.month, date__year=year, deleted = False).order_by('-date')
         events_by_month[(month, year)] = events
 
     return render(request, 'facultyevents.html', {'events_by_month': events_by_month})
@@ -318,10 +373,10 @@ def admin_fac_events(request):
         faculty_event.save()
 
         # Show a success message
-        messages.success(request, "Faculty event details added successfully.")
+
 
         # Redirect to the same page to display the success message
-    faculty_events = OtherEvent.objects.all()
+    faculty_events = OtherEvent.objects.filter(deleted = False)
 
     context = {
         'faculty_events': faculty_events,
@@ -341,18 +396,17 @@ def admin_std_events(request):
 
 
         # Save the data to the StudentEvent model
-        student_event = StudentEvent(title=title, date=date, college=college, location=location, description=description)
+        student_event = StudentEvent(title=title, date=date, college=college, location=location, description=description, deleted = False)
         student_event.save()
 
 
         # Show a success message
-        messages.success(request, "Student event details added successfully.")
+
 
         # Redirect to the same page to display the success message
         # return redirect('admin_std_events')
 
-    student_events = StudentEvent.objects.all()
-
+    student_events = StudentEvent.objects.filter(deleted=False)
     context = {
         'student_events': student_events,
     }
@@ -549,7 +603,7 @@ def submit_request(request):
             terms_and_conditions=terms_and_conditions
         )
         request_instance.save()
-    messages.success(request, "Your Response has been recorded")
+
 
     events = FinalRequest.objects.all()
     event_data = []
@@ -562,12 +616,6 @@ def submit_request(request):
             # Add other event properties here
         })
 
-
-
-
-        # Redirect to a success page or perform other actions
-        # return redirect('success_page')  # Replace 'success_page' with the actual URL name of your success page
-
     return render(request, 'requestform.html',{'event_data': event_data})
 
 
@@ -579,17 +627,39 @@ def cal(request):
     }
     return render(request,'cal.html',context)
 def all_events(request):
-    all_events = CalEvents.objects.all()
-    out = []
-    for event in all_events:
-        out.append({
-            'title': event.name,
-            'id': event.id,
-            'start': event.start.strftime("%m/%d/%Y, %H:%M:%S"),
-            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"),
+    cal_events = CalEvents.objects.all()
+    student_events = StudentEvent.objects.filter(deleted = False)
+    faculty_events = OtherEvent.objects.all()
+
+    events = []
+
+    # Add CalEvents to the events list
+    for cal_event in cal_events:
+        events.append({
+            'title': cal_event.name,
+            'id': cal_event.id,
+            'start': cal_event.start.strftime("%Y-%m-%d %H:%M:%S"),
+            'end': cal_event.end.strftime("%Y-%m-%d %H:%M:%S"),
         })
 
-    return JsonResponse(out, safe=False)
+    # Add StudentEvents to the events list with college names as titles
+    for student_event in student_events:
+        events.append({
+            'title':"SSDP at "+ student_event.college,
+            'start': student_event.date.strftime("%Y-%m-%d"),
+            'end': student_event.date.strftime("%Y-%m-%d"),
+        })
+    for faculty_event in faculty_events:
+        events.append({
+            'title':"FDP at " + faculty_event.location,
+            'start':faculty_event.date.strftime("%Y-%m-%d"),
+            'end':faculty_event.date.strftime("%Y-%m-%d"),
+
+        })
+
+
+    return JsonResponse(events, safe=False)
+
 
 def add_event(request):
     start = request.GET.get("start", None)
@@ -624,3 +694,5 @@ def usercal(request):
 
 
 
+def newsreport(request):
+    return render(request, "newsreport.html")
