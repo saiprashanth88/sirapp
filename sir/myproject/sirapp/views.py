@@ -264,20 +264,25 @@ def studentevents(request):
 
     return render(request, 'studentevents.html', {'events_by_month': events_by_month})
 from django.shortcuts import get_object_or_404
+from django.shortcuts import get_list_or_404
 
 def deleteStdevents(request,event_title, event_date):
 
-    event = get_object_or_404(StudentEvent, title=event_title, date=event_date)
-    event.deleted = True
-    event.save()
+    events = get_list_or_404(StudentEvent, title=event_title, date=event_date)
+
+    for event in events:
+        event.deleted = True
+        event.save()
 
     return render(request, 'admin_std_events.html')
 
 def deleteFacevents(request,event_title, event_date):
 
-    event = get_object_or_404(OtherEvent, title=event_title, date=event_date)
-    event.deleted = True
-    event.save()
+    events = get_list_or_404(OtherEvent, title=event_title, date=event_date)
+
+    for event in events:
+        event.deleted = True
+        event.save()
 
     return render(request, 'admin_fac_events.html')
 
@@ -289,11 +294,11 @@ def filter_events(request):
     if selected_month:
         selected_date = datetime.strptime(selected_month, '%Y-%m')
 
-        faculty_events = OtherEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year)
-        student_events = StudentEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year)
+        faculty_events = OtherEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year,deleted = False)
+        student_events = StudentEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year, deleted = False)
     else:
-        faculty_events = OtherEvent.objects.all()
-        student_events = StudentEvent.objects.all()
+        faculty_events = OtherEvent.objects.filter(deleted = False)
+        student_events = StudentEvent.objects.filter(deleted = False)
 
     return render(request, 'newsreport.html', {'faculty_events': faculty_events, 'student_events': student_events})
 
@@ -629,7 +634,7 @@ def cal(request):
 def all_events(request):
     cal_events = CalEvents.objects.all()
     student_events = StudentEvent.objects.filter(deleted = False)
-    faculty_events = OtherEvent.objects.all()
+    faculty_events = OtherEvent.objects.filter(deleted = False)
 
     events = []
 
