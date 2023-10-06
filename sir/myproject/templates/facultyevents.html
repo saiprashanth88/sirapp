@@ -134,7 +134,7 @@ function submitFeedback() {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeFeedbackForm()">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+                    <button type="button" class="btn btn-primary" onclick="validateAndSubmit()">Submit Feedback</button>
                 </div>
             </div>
         </div>
@@ -144,5 +144,25 @@ function submitFeedback() {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function validateAndSubmit() {
+            const emailInput = document.getElementById("email");
+            const emailValue = emailInput.value.trim();
+
+            // Check if the email is in a valid format using a regular expression
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailRegex.test(emailValue)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            document.getElementById("feedbackForm").submit();
+            // If the email is valid, you can proceed with form submission
+            // For example:
+            // document.getElementById("myForm").submit();
+            // Replace "myForm" with the actual ID of your form.
+        }
+        </script>
+
+
 </body>
 </html>

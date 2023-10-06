@@ -1056,13 +1056,13 @@
 $('#course').change(function () {
             var selectedCourse = $(this).val();
             var yearOptions = {
-                'B Tech': ['1st Year', '2nd Year', '3rd Year', '4th Year'],
-                'B Pharmacy': ['1st Year', '2nd Year', '3rd Year', '4th Year'],
-                'MBA': ['1st Year', '2nd Year'],
-                'BBA': ['1st Year', '2nd Year'],
-                'B Com': ['1st Year', '2nd Year', '3rd Year'],
-                'BA': ['1st Year', '2nd Year', '3rd Year'],
-                'B Sc': ['1st Year', '2nd Year', '3rd Year'],
+                'B Tech': ['1st Year', '2nd Year', '3rd Year', '4th Year','NA'],
+                'B Pharmacy': ['1st Year', '2nd Year', '3rd Year', '4th Year','NA'],
+                'MBA': ['1st Year', '2nd Year','NA'],
+                'BBA': ['1st Year', '2nd Year','NA'],
+                'B Com': ['1st Year', '2nd Year', '3rd Year','NA'],
+                'BA': ['1st Year', '2nd Year', '3rd Year','NA'],
+                'B Sc': ['1st Year', '2nd Year', '3rd Year','NA'],
             };
 
             var branchOptions = {
@@ -1095,6 +1095,7 @@ $('#course').change(function () {
             for (var i = 1; i <= 2; i++) {
                 semesterDropdown.append($('<option>').text('Semester ' + i).attr('value', i));
             }
+            semesterDropdown.append($('<option>').text('NA ' ).attr('value', 0));
         });
         // Initialize FullCalendar and your other scripts
         // ...
