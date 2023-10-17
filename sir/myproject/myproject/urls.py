@@ -64,6 +64,7 @@ urlpatterns = [
 
     path('deleteFacevents/<str:event_title>/<str:event_date>/', views.deleteFacevents, name='deleteFacevents'),
 
+    path('deleteLectures/<str:event_title>/<str:event_date>/', views.deleteLectures, name='deleteLectures'),
 
 
 

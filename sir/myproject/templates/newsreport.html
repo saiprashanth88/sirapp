@@ -48,7 +48,7 @@
 <body>
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
-        <!-- <a href="{% url 'admin_lectures' %}">Lectures & Seminars</a> -->
+        <a href="{% url 'admin_lectures' %}">Lectures & Seminars</a>
         <a href="{% url 'admin_std_events' %}" id="std-events-link">Student Exclusive Events</a>
         <a href="{% url 'admin_fac_events' %}" id="fac-events-link">Faculty Exclusive Events</a>
         <a href="{% url 'admin_calender' %}" id="admin-calender-link">Requests</a>
@@ -65,8 +65,11 @@
         <form method="GET" action="{% url 'filter_events' %}">
             <label for="month">Select Month and Year:</label>
             <input type="month" id="month" name="month">
-            <button type="submit">Generate</button>
+            <button type="submit" id="generate-button">Generate</button>
         </form>
+        <div id="selected-month-year">
+            <h2 style="color: rgb(40, 10, 211);">{{ selected_date}} Events</h2>
+        </div>
         <div id="events">
             <h2 style="color: rgb(230, 4, 4);">Student Skill Development Programs:</h2>
             <ul>
@@ -80,6 +83,12 @@
                 <li>On {{ event.date }} conducted SSDP on {{event.title}} at {{event.college}} {{ event.location }}.</li>
                 {% endfor %}
             </ul>
+            <h2 style="color: rgb(230, 4, 4);">Lectures and Seminars</h2>
+            <ul>
+                {% for event in lecture_events %}
+                <li>{{event.description}}</li>
+                {% endfor %}
+            </ul>
 
         </div>
     </div>
@@ -87,6 +96,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Add a click event handler for the "Generate" button
+
+
             // Get the current URL path
             var currentPath = window.location.pathname;
 
@@ -97,7 +109,6 @@
             $('#' + currentPath + '-link').addClass('active');
         });
     </script>
-
 
 </body>
 </html>

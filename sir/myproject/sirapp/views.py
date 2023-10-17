@@ -285,23 +285,37 @@ def deleteFacevents(request,event_title, event_date):
         event.save()
 
     return render(request, 'admin_fac_events.html')
+def deleteLectures(request,event_title, event_date):
+
+    events = get_list_or_404(LectureEvent, title=event_title, date=event_date)
+
+    for event in events:
+        event.deleted = True
+        event.save()
+
+    return render(request, 'admin_lectures.html')
 
 from datetime import datetime
 
+
 def filter_events(request):
     selected_month = request.GET.get('month')
+    selected_date = None
 
     if selected_month:
         selected_date = datetime.strptime(selected_month, '%Y-%m')
+        formatted_selected_date = selected_date.strftime('%b. %Y')
 
-        faculty_events = OtherEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year,deleted = False)
-        student_events = StudentEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year, deleted = False)
+        faculty_events = OtherEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year, deleted=False)
+        student_events = StudentEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year, deleted=False)
+        lecture_events = LectureEvent.objects.filter(date__month=selected_date.month, date__year=selected_date.year, deleted=False)
     else:
-        faculty_events = OtherEvent.objects.filter(deleted = False)
-        student_events = StudentEvent.objects.filter(deleted = False)
+        formatted_selected_date = None
+        faculty_events = OtherEvent.objects.filter(deleted=False)
+        student_events = StudentEvent.objects.filter(deleted=False)
+        lecture_events = LectureEvent.objects.filter(deleted=False)
 
-    return render(request, 'newsreport.html', {'faculty_events': faculty_events, 'student_events': student_events})
-
+    return render(request, 'newsreport.html', {'selected_date': formatted_selected_date, 'faculty_events': faculty_events, 'student_events': student_events, 'lecture_events': lecture_events})
 
 def liveevents(request):
     return render(request, "liveevents.html")
@@ -351,7 +365,7 @@ def admin_lectures(request):
 
         # Redirect to the same page to display the success message
         return redirect('admin_lectures')
-    lecture_events = LectureEvent.objects.all()
+    lecture_events = LectureEvent.objects.filter(deleted = False)
 
     context = {
         'lecture_events': lecture_events,

@@ -34,6 +34,14 @@
             margin-left: 250px;
             padding: 20px;
         }
+        .event {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.css">
@@ -42,7 +50,7 @@
 <body>
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
-        <!-- <a href="{% url 'admin_lectures' %}" style="background-color: #007bff;">Lectures & Seminars</a> -->
+        <a href="{% url 'admin_lectures' %}" style="background-color: #007bff;">Lectures & Seminars</a>
         <a href="{% url 'admin_std_events' %}">Student Exclusive Events</a>
         <a href="{% url 'admin_fac_events' %}" >Faculty Exclusive Events</a>
         <!-- <a href="#responses" onclick="showPage('dashboard')">Dashboard</a> -->
@@ -59,7 +67,7 @@
 
         <button class="btn btn-primary add-event-btn" id="showStudentEventForm">Add Lecture or Seminars</button>
 <!-- View Feedbacks Button with btn-primary class -->
-
+<br><br>
         <!-- Student Event Form -->
         <form method="post" class="event-form" id="studentEventForm" style="display: none;">
             {% csrf_token %}
@@ -121,7 +129,7 @@
                         <strong>Phone:</strong> {{ event.cell }}<br>
                         <strong>Description:</strong> {{ event.description }}<br>
                     </p>
-                    <a href="{% url 'feedback_page' event.title %}" class="btn btn-primary btn-feedback">View Feedback</a>
+                    <a href="{% url 'deleteLectures' event.title event.date %}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
