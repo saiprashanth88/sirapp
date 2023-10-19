@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mydb2',
-        'USER': 'root',
-        'PASSWORD': 'saipandu123',
-        'HOST': 'localhost',  # Or your database host
-        'PORT': '3306',           # Leave empty for default port (3306)
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'TrX5uGClmufzbmzygWE0',
+        'HOST': 'containers-us-west-191.railway.app',  # Or your database host
+        'PORT': '7507',           # Leave empty for default port (3306)
     }
 }
 
